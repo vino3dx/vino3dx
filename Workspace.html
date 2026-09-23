@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace 目录结构</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #1a1d24;
+    --border: #2a2e38;
+    --text: #e6e8ee;
+    --muted: #8b919e;
+    --accent: #5b8def;
+    --hover: #252a35;
+    --tip-bg: #2a3040;
+    --success: #3dd68c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  /* 简介卡片 */
+  .intro {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: left;
+    margin-bottom: 28px;
+    font-size: 0.92rem;
+  }
+
+  .intro p {
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .intro p:last-child {
+    margin-bottom: 0;
+  }
+
+  .intro strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .intro .tag {
+    display: inline-block;
+    background: var(--hover);
+    color: var(--accent);
+    font-size: 0.78rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+  }
+
+  .tree {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px 28px;
+  }
+
+  .root {
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .root::before { content: "📁"; font-size: 1.25rem; }
+
+  details {
+    margin: 2px 0;
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.98rem;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary:hover {
+    background: var(--hover);
+  }
+
+  summary::before {
+    content: "▶";
+    font-size: 0.7rem;
+    color: var(--muted);
+    width: 14px;
+    transition: transform 0.2s;
+  }
+
+  details[open] > summary::before {
+    transform: rotate(90deg);
+  }
+
+  summary .icon { font-size: 1.05rem; }
+
+  /* 二级 */
+  .level-2 {
+    margin: 2px 0 6px 22px;
+    border-left: 1px solid var(--border);
+    padding-left: 12px;
+  }
+
+  .level-2 summary {
+    font-size: 0.92rem;
+    font-weight: 400;
+    padding: 5px 10px;
+  }
+
+  .level-2 summary::before {
+    font-size: 0.65rem;
+  }
+
+  /* 三级 */
+  .level-3 {
+    margin: 1px 0 4px 20px;
+    border-left: 1px dashed var(--border);
+    padding-left: 12px;
+  }
+
+  .leaf {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.86rem;
+    color: var(--muted);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .leaf:hover {
+    background: var(--hover);
+    color: var(--text);
+  }
+
+  .leaf .icon { font-size: 0.9rem; }
+
+  /* 跟随鼠标的全局提示 */
+  #tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: var(--tip-bg);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 400;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+    max-width: 280px;
+    line-height: 1.4;
+    white-space: normal;
+  }
+
+  #tooltip.show {
+    opacity: 1;
+  }
+
+  /* 工具栏 */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    justify-content: flex-end;
+  }
+
+  .toolbar button {
+    background: var(--hover);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .toolbar button:hover {
+    background: #2f3542;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 32px;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  /* 代码块区域 */
+  .code-section {
+    margin-top: 48px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .code-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+
+  .code-section p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .code-header h2 {
+    margin-bottom: 0;
+  }
+
+  .copy-btn {
+    background: var(--hover);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .copy-btn:hover {
+    background: #2f3542;
+  }
+
+  .copy-btn.copied {
+    background: rgba(61, 214, 140, 0.15);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  pre {
+    background: #12151b;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    overflow-x: auto;
+    font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #c8ccd4;
+  }
+
+  .guide {
+    background: rgba(91, 141, 239, 0.08);
+    border: 1px solid rgba(91, 141, 239, 0.25);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .guide strong {
+    color: var(--text);
+  }
+
+  .guide ol {
+    margin: 10px 0 0 18px;
+    padding: 0;
+  }
+
+  .guide li {
+    margin-bottom: 6px;
+  }
+
+  .guide code {
+    background: var(--hover);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Workspace 目录结构</h1>
+    </header>
+
+    <!-- 项目简介 -->
+    <div class="intro">
+      <p><strong>简介</strong>：一套简洁、可长期维护的个人 / 小团队工作区目录规范。把「正在做的」「已经交付的」「可复用的」「临时试验的」清楚分开，减少文件混乱。</p>
+      <p><strong>适用人群</strong>：独立开发者、小团队、需要同时管理多个项目与历史版本的创作者。</p>
+      <p><strong>使用注意</strong>：
+        <span class="tag">仅到 3 级</span>
+        <span class="tag">点击展开</span>
+        <span class="tag">悬停看说明</span>
+        · 底部附带一键生成 bat
+      </p>
+    </div>
+
+    <div class="tree">
+      <div class="toolbar">
+        <button onclick="expandAll()">全部展开</button>
+        <button onclick="collapseAll()">全部折叠</button>
+      </div>
+
+      <div class="root">Workspace</div>
+
+      <!-- Archive -->
+      <details open>
+        <summary class="tip" data-tip="归档打包后的项目存放在这里，长期保存历史版本">
+          <span class="icon">📂</span> Archive
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="某个已结束项目的压缩包归档">
+              <span class="icon">📁</span> project-alpha
+            </summary>
+            <div class="level-3">
+              <div class="leaf tip" data-tip="按日期命名的快照"><span class="icon">📄</span> 2025-11-03.zip</div>
+              <div class="leaf tip" data-tip="按日期命名的快照"><span class="icon">📄</span> 2026-03-18.zip</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="实验性项目的最终归档">
+              <span class="icon">📁</span> experiment-beta
+            </summary>
+            <div class="level-3">
+              <div class="leaf tip" data-tip="最终版本压缩包"><span class="icon">📄</span> final-snapshot.zip</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="早期原型与废弃方案">
+              <span class="icon">📁</span> old-prototypes
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> prototype-v1.zip</div>
+              <div class="leaf"><span class="icon">📄</span> prototype-v2.zip</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Builds -->
+      <details open>
+        <summary class="tip" data-tip="编译产物、安装包与发布版本存放处">
+          <span class="icon">📂</span> Builds
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="正式发布版本">
+              <span class="icon">📁</span> release
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> v1.0.0</div>
+              <div class="leaf"><span class="icon">📄</span> v1.1.0</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="每日自动构建">
+              <span class="icon">📁</span> nightly
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> 2026-09-20</div>
+              <div class="leaf"><span class="icon">📄</span> 2026-09-21</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="预发布 / 候选版本">
+              <span class="icon">📁</span> staging
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> candidate-build</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Dev -->
+      <details open>
+        <summary class="tip" data-tip="当前正在研发的项目与实验代码">
+          <span class="icon">📂</span> Dev
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="核心引擎或主业务代码">
+              <span class="icon">📁</span> engine-core
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> src</div>
+              <div class="leaf"><span class="icon">📄</span> tests</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="配套工具与辅助模块">
+              <span class="icon">📁</span> tool-kit
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> utils</div>
+              <div class="leaf"><span class="icon">📄</span> scripts</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="探索性实验与技术验证">
+              <span class="icon">📁</span> research
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> notes</div>
+              <div class="leaf"><span class="icon">📄</span> experiments</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="研发过程中的临时手动备份（非长期归档）">
+              <span class="icon">📁</span> _Backup
+            </summary>
+            <div class="level-3">
+              <div class="leaf tip" data-tip="带日期的项目快照"><span class="icon">📄</span> engine-core_2026-09-15.zip</div>
+              <div class="leaf tip" data-tip="带日期的项目快照"><span class="icon">📄</span> tool-kit_2026-09-20.zip</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Deliveries -->
+      <details open>
+        <summary class="tip" data-tip="已经交付给客户或外部使用的成品">
+          <span class="icon">📂</span> Deliveries
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="某客户的交付物">
+              <span class="icon">📁</span> client-a
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> package-v1</div>
+              <div class="leaf"><span class="icon">📄</span> package-v2</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="另一客户的交付物">
+              <span class="icon">📁</span> client-b
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> final-delivery</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="内部演示或测试包">
+              <span class="icon">📁</span> internal
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> demo-pack</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Libraries -->
+      <details open>
+        <summary class="tip" data-tip="可复用的库、公共组件与第三方依赖">
+          <span class="icon">📂</span> Libraries
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="自己写的通用工具库">
+              <span class="icon">📁</span> common-utils
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> math</div>
+              <div class="leaf"><span class="icon">📄</span> string</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="外部第三方库">
+              <span class="icon">📁</span> third-party
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> lib-x</div>
+              <div class="leaf"><span class="icon">📄</span> lib-y</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="共享资源（图标、字体等）">
+              <span class="icon">📁</span> shared-assets
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> icons</div>
+              <div class="leaf"><span class="icon">📄</span> fonts</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Portfolio -->
+      <details open>
+        <summary class="tip" data-tip="作品集、案例展示与宣传材料">
+          <span class="icon">📂</span> Portfolio
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="某一年的精选作品">
+              <span class="icon">📁</span> showcase-2025
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> project-one</div>
+              <div class="leaf"><span class="icon">📄</span> project-two</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="详细案例分析">
+              <span class="icon">📁</span> case-studies
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> study-a</div>
+              <div class="leaf"><span class="icon">📄</span> study-b</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="截图、视频等媒体素材">
+              <span class="icon">📁</span> media
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> screenshots</div>
+              <div class="leaf"><span class="icon">📄</span> videos</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Projects -->
+      <details open>
+        <summary class="tip" data-tip="正式进行中的项目（相对稳定）">
+          <span class="icon">📂</span> Projects
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="当前活跃项目 A">
+              <span class="icon">📁</span> active-alpha
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> docs</div>
+              <div class="leaf"><span class="icon">📄</span> source</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="当前活跃项目 B">
+              <span class="icon">📁</span> active-beta
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> assets</div>
+              <div class="leaf"><span class="icon">📄</span> config</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="暂时搁置的项目">
+              <span class="icon">📁</span> paused-gamma
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> notes</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Sandbox -->
+      <details open>
+        <summary class="tip" data-tip="临时试验、快速验证与随手写的代码">
+          <span class="icon">📂</span> Sandbox
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="短平快的功能测试">
+              <span class="icon">📁</span> quick-tests
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> test-01</div>
+              <div class="leaf"><span class="icon">📄</span> test-02</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="想法草图与随意尝试">
+              <span class="icon">📁</span> playground
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> idea-sketch</div>
+              <div class="leaf"><span class="icon">📄</span> throwaway</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="临时文件，用完可删">
+              <span class="icon">📁</span> temp
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> scratch</div>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <!-- Tools -->
+      <details open>
+        <summary class="tip" data-tip="开发辅助工具、脚本与诊断程序">
+          <span class="icon">📂</span> Tools
+        </summary>
+        <div class="level-2">
+          <details>
+            <summary class="tip" data-tip="格式转换、数据处理等工具">
+              <span class="icon">📁</span> converters
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> image-tool</div>
+              <div class="leaf"><span class="icon">📄</span> data-tool</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="批处理脚本与启动器">
+              <span class="icon">📁</span> helpers
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> batch-scripts</div>
+              <div class="leaf"><span class="icon">📄</span> launchers</div>
+            </div>
+          </details>
+          <details>
+            <summary class="tip" data-tip="日志查看与问题诊断">
+              <span class="icon">📁</span> diagnostics
+            </summary>
+            <div class="level-3">
+              <div class="leaf"><span class="icon">📄</span> log-viewer</div>
+            </div>
+          </details>
+        </div>
+      </details>
+    </div>
+
+    <footer>
+      双击即可打开 · 鼠标悬停查看目录用途 · 支持全部展开 / 折叠
+    </footer>
+
+    <!-- .bat 代码 -->
+    <div class="code-section">
+      <div class="code-header">
+        <h2>一键生成空目录结构</h2>
+        <button class="copy-btn" id="copyBtn" onclick="copyBat()">
+          <span id="copyIcon">📋</span>
+          <span id="copyText">复制代码</span>
+        </button>
+      </div>
+
+      <!-- 新手使用说明 -->
+      <div class="guide">
+        <strong>新手使用方法（推荐按顺序操作）：</strong>
+        <ol>
+          <li>点击上方「复制代码」按钮，把代码复制到剪贴板。</li>
+          <li>在你想创建工作区的位置（比如桌面或 D 盘），右键 → <strong>新建</strong> → <strong>文本文档</strong>。</li>
+          <li>打开这个新建的文本文档，把刚才复制的代码全部粘贴进去，然后保存并关闭。</li>
+          <li>把文件名改成 <code>create-workspace.bat</code>（注意后缀是 .bat）。</li>
+          <li>如果改完名字后看不到 .bat，而是显示成 <code>create-workspace.bat.txt</code>，说明系统隐藏了后缀名。请按下面方法显示后缀：
+            <br>打开任意文件夹 → 点击顶部「查看」→ 勾选「文件扩展名」（Windows 11 在「查看」→「显示」里）。
+          </li>
+          <li>双击 <code>create-workspace.bat</code> 运行，会在当前位置自动新建一个空的 <code>Workspace</code> 文件夹，并生成所有一级目录。</li>
+        </ol>
+      </div>
+
+      <p>脚本只创建空的一级目录，干净无示例文件，运行后可直接使用。</p>
+      <pre id="batCode">@echo off
+chcp 65001 >nul
+setlocal
+
+:: 在当前运行位置创建 Workspace 文件夹
+set "ROOT=%cd%\Workspace"
+
+echo.
+echo ========================================
+echo   正在创建工作区目录结构
+echo   位置：%ROOT%
+echo ========================================
+echo.
+
+:: 创建根目录
+mkdir "%ROOT%" 2>nul
+
+:: 只创建空的一级目录（纯净结构）
+mkdir "%ROOT%\Archive" 2>nul
+mkdir "%ROOT%\Builds" 2>nul
+mkdir "%ROOT%\Dev" 2>nul
+mkdir "%ROOT%\Deliveries" 2>nul
+mkdir "%ROOT%\Libraries" 2>nul
+mkdir "%ROOT%\Portfolio" 2>nul
+mkdir "%ROOT%\Projects" 2>nul
+mkdir "%ROOT%\Sandbox" 2>nul
+mkdir "%ROOT%\Tools" 2>nul
+
+echo.
+echo 目录创建完成！
+echo.
+echo 当前结构预览：
+tree /A "%ROOT%"
+echo.
+echo 按任意键退出...
+pause >nul</pre>
+    </div>
+  </div>
+
+  <!-- 跟随鼠标的提示框 -->
+  <div id="tooltip"></div>
+
+  <script>
+    function expandAll() {
+      document.querySelectorAll('details').forEach(d => d.open = true);
+    }
+    function collapseAll() {
+      document.querySelectorAll('details').forEach(d => d.open = false);
+    }
+
+    // ===== 一键复制 bat 代码 =====
+    function copyBat() {
+      const code = document.getElementById('batCode').innerText;
+      const btn = document.getElementById('copyBtn');
+      const icon = document.getElementById('copyIcon');
+      const text = document.getElementById('copyText');
+
+      navigator.clipboard.writeText(code).then(() => {
+        btn.classList.add('copied');
+        icon.textContent = '✅';
+        text.textContent = '已复制';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          icon.textContent = '📋';
+          text.textContent = '复制代码';
+        }, 2000);
+      }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = code;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.classList.add('copied');
+        icon.textContent = '✅';
+        text.textContent = '已复制';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          icon.textContent = '📋';
+          text.textContent = '复制代码';
+        }, 2000);
+      });
+    }
+
+    // ===== 跟随鼠标的提示 =====
+    const tooltip = document.getElementById('tooltip');
+    let currentTip = null;
+
+    document.querySelectorAll('.tip').forEach(el => {
+      el.addEventListener('mouseenter', (e) => {
+        const text = el.getAttribute('data-tip');
+        if (!text) return;
+        tooltip.textContent = text;
+        tooltip.classList.add('show');
+        currentTip = el;
+        moveTooltip(e);
+      });
+
+      el.addEventListener('mousemove', (e) => {
+        if (currentTip === el) moveTooltip(e);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('show');
+        currentTip = null;
+      });
+    });
+
+    function moveTooltip(e) {
+      const offset = 14;
+      const tipW = tooltip.offsetWidth;
+      const tipH = tooltip.offsetHeight;
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+
+      let x = e.clientX + offset;
+      let y = e.clientY + offset;
+
+      if (x + tipW > winW - 8) {
+        x = e.clientX - tipW - offset;
+      }
+      if (y + tipH > winH - 8) {
+        y = e.clientY - tipH - offset;
+      }
+      if (x < 8) x = 8;
+      if (y < 8) y = 8;
+
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+  </script>
+</body>
+</html>
