@@ -1,0 +1,64 @@
+# Vino
+
+> Vino (GitHub: vino3dx) is a CG Generalist and Technical Artist working on real-time graphics, game engine tooling, shaders, VFX, DCC automation and AI-assisted development workflows.
+
+Vino works across 3D production and real-time development: building tools, plugins, shaders and interactive systems for game engines and DCC applications, and documenting the process on vinofx.com.
+
+## Identity
+
+- Name: Vino
+- Alternate names: Vino Studio, vino3dx
+- Role: CG Generalist & Technical Artist
+- Website: https://vinofx.com/
+- GitHub: https://github.com/vino3dx
+
+## Areas of work
+
+- Technical art and real-time graphics
+- Game engine development with Godot and Unreal Engine
+- Shader development (HLSL, GLSL) and rendering work
+- DCC automation for 3ds Max, Blender and Houdini
+- Developer tools, plugins and asset pipeline automation
+- Model Context Protocol (MCP) servers that let AI agents drive DCC and game engine software
+- Interactive applications, visualization systems and projection-based installations
+
+## Tools and languages
+
+- Engines: Godot, Unreal Engine
+- DCC: 3ds Max, Blender, Houdini
+- Languages: C++, Python, GDScript
+- Shading: HLSL, GLSL
+- Additional stack used in published repositories: C#, TypeScript / Node.js, MAXScript
+
+## Projects
+
+- [3dsmax-mcp](https://github.com/vino3dx/3dsmax-mcp): MCP server that lets AI agents control and automate Autodesk 3ds Max for modelling, shading, rigging, animation, rendering, baking and engine export.
+- [vino-godot-mcp](https://github.com/vino3dx/vino-godot-mcp): Standalone MCP server for Godot that reads and writes project files directly through a text AST parser, without launching the editor for daily work.
+- [godot-vinokit](https://github.com/vino3dx/godot-vinokit): Godot utility library with reusable modules for asset management, config persistence, license verification, UI tooling and hardware communication.
+- [godot-yolo-faceswap](https://github.com/vino3dx/godot-yolo-faceswap): Offline AI face swap and restoration component for Unity and Godot Mono, built on ONNX Runtime, YOLOv8 and GFPGAN.
+- [labor-3dsmax](https://github.com/vino3dx/labor-3dsmax): Modular 3ds Max workflow toolkit focused on repetitive object organisation tasks and the 3ds Max to Unreal Engine pipeline.
+- [labor-blender](https://github.com/vino3dx/labor-blender): Blender scene assembly toolkit ported from the 3ds Max AssemblyTool, covering placement and assembly tasks.
+- [license-generator](https://github.com/vino3dx/license-generator): Offline license system for Godot 4 projects with AES-256 encrypted license files, project binding and expiry checks.
+- [ue-prime-kit](https://github.com/vino3dx/ue-prime-kit): Unreal Engine 5.1 C++ base project and plugin kit for building Blueprint-exposed editor tools.
+- [vision-arena](https://github.com/vino3dx/vision-arena): AR football game that uses YOLOv11 ball detection over a camera feed to control objects inside Godot.
+- [godot_cpp_plugin_dev](https://github.com/vino3dx/godot_cpp_plugin_dev): Quickstart template for GDExtension development with Godot 4, including build and release workflows.
+
+Full project index: https://github.com/vino3dx/vino3dx/blob/main/PROJECTS.md
+
+## Writing
+
+Technical articles on real-time graphics, shaders, DCC workflows and pipeline automation are published on the personal website:
+
+- https://vinofx.com/blogri-zhi
+
+## Official links
+
+- Website: https://vinofx.com/
+- GitHub: https://github.com/vino3dx
+- Fab: https://www.fab.com/sellers/Vino
+- Bilibili: https://space.bilibili.com/250546761
+- ZCOOL: https://www.zcool.com.cn/u/ZNjMxMjIwMjg=
+- CGModel: https://www.cgmodel.com/designer/1186390.html
+
+Machine-readable profile: https://github.com/vino3dx/vino3dx/blob/main/profile.json
+Link index: https://github.com/vino3dx/vino3dx/blob/main/LINKS.md

@@ -1,0 +1,43 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://vinofx.com/#person",
+  "name": "Vino",
+  "alternateName": [
+    "vino3dx",
+    "Vino Studio"
+  ],
+  "url": "https://vinofx.com/",
+  "description": "CG Generalist and Technical Artist working across 3D production, real-time graphics and developer tooling. Builds tools, plugins, shaders and MCP servers for Godot, Unreal Engine, 3ds Max, Blender and Houdini, and writes about the process on vinofx.com.",
+  "jobTitle": "CG Generalist & Technical Artist",
+  "knowsAbout": [
+    "Technical Art",
+    "Real-time Graphics",
+    "Real-time Rendering",
+    "Shader Development",
+    "HLSL",
+    "GLSL",
+    "VFX",
+    "Game Engine Development",
+    "Godot Engine",
+    "Unreal Engine",
+    "3ds Max",
+    "Blender",
+    "Houdini",
+    "DCC Automation",
+    "Asset Pipeline Automation",
+    "C++",
+    "Python",
+    "GDScript",
+    "Model Context Protocol",
+    "AI Agents",
+    "Developer Tools"
+  ],
+  "sameAs": [
+    "https://github.com/vino3dx",
+    "https://www.fab.com/sellers/Vino",
+    "https://space.bilibili.com/250546761",
+    "https://www.zcool.com.cn/u/ZNjMxMjIwMjg=",
+    "https://www.cgmodel.com/designer/1186390.html"
+  ]
+}

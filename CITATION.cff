@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you reference these tools or projects, please cite this repository."
+title: "Vino - CG Generalist and Technical Artist: profile and project index"
+type: software
+authors:
+  - family-names: Vino
+    alias: vino3dx
+    website: "https://vinofx.com/"
+repository-code: "https://github.com/vino3dx/vino3dx"
+url: "https://vinofx.com/"
+abstract: >-
+  Vino is a CG Generalist and Technical Artist working on real-time graphics,
+  game engine tooling, shaders, VFX, DCC automation and AI-assisted development
+  workflows. This repository indexes verified public projects, including MCP
+  servers for Autodesk 3ds Max and Godot, automation toolkits for 3ds Max and
+  Blender, Godot utility and licensing tools, and offline computer vision
+  components for game engines.
+keywords:
+  - technical art
+  - real-time graphics
+  - real-time rendering
+  - shader development
+  - vfx
+  - godot
+  - unreal engine
+  - 3ds max
+  - blender
+  - houdini
+  - dcc automation
+  - asset pipeline
+  - model context protocol
+  - ai agents
+  - developer tools
