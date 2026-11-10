@@ -1,8 +1,10 @@
 # Projects
 
-Selected public projects by Vino ([@vino3dx](https://github.com/vino3dx)).
+Selected public projects by **Vino** ([@vino3dx](https://github.com/vino3dx)) — a CG generalist and technical artist building tools, plugins, shaders and MCP servers for **Godot Engine, Unreal Engine, Autodesk 3ds Max, Blender and Houdini**. Categories below: game engine development, DCC automation, real-time graphics, AI and computer vision, developer tools, and MCP / AI agent integration.
 
 Every entry below was checked against the actual public repository: name, description, technologies and features are taken from the repository and its README. Projects without a verifiable public repository are not listed.
+
+Profile and links: [README.md](./README.md) · [LINKS.md](./LINKS.md) · [llms.txt](./llms.txt)
 
 ---
 

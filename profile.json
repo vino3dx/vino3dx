@@ -5,33 +5,81 @@
   "name": "Vino",
   "alternateName": [
     "vino3dx",
-    "Vino Studio"
+    "Vino Studio",
+    "Vino FX"
   ],
+  "givenName": "Vino",
   "url": "https://vinofx.com/",
-  "description": "CG Generalist and Technical Artist working across 3D production, real-time graphics and developer tooling. Builds tools, plugins, shaders and MCP servers for Godot, Unreal Engine, 3ds Max, Blender and Houdini, and writes about the process on vinofx.com.",
+  "mainEntityOfPage": "https://vinofx.com/",
+  "image": "https://avatars.githubusercontent.com/u/63284484?v=4",
+  "description": "Vino (vino3dx) is a CG generalist and technical artist working across 3D production, real-time graphics and developer tooling. He builds tools, plugins, shaders and MCP servers for Godot, Unreal Engine, 3ds Max, Blender and Houdini, and writes about the process on vinofx.com.",
   "jobTitle": "CG Generalist & Technical Artist",
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Technical Artist",
+    "occupationalCategory": "Technical Art / CG Generalist",
+    "skills": "Technical art, real-time rendering, shader development, DCC automation, game engine tooling, pipeline development"
+  },
   "knowsAbout": [
     "Technical Art",
+    "CG Generalist",
     "Real-time Graphics",
     "Real-time Rendering",
     "Shader Development",
     "HLSL",
     "GLSL",
+    "OSL",
     "VFX",
+    "Look Development",
     "Game Engine Development",
     "Godot Engine",
     "Unreal Engine",
-    "3ds Max",
+    "Autodesk 3ds Max",
     "Blender",
     "Houdini",
+    "MAXScript",
     "DCC Automation",
     "Asset Pipeline Automation",
+    "Editor Plugin Development",
     "C++",
     "Python",
     "GDScript",
+    "TypeScript",
     "Model Context Protocol",
     "AI Agents",
-    "Developer Tools"
+    "ONNX Runtime",
+    "Computer Vision",
+    "AR",
+    "Projection Mapping",
+    "Web 3D",
+    "Interactive Installations",
+    "Developer Tools",
+    "技术美术",
+    "实时渲染",
+    "着色器"
+  ],
+  "knowsLanguage": [
+    "zh-CN",
+    "en"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Chengdu",
+    "addressRegion": "Sichuan",
+    "addressCountry": "CN"
+  },
+  "subjectOf": [
+    {
+      "@type": "CreativeWork",
+      "name": "Vino — profile and project index",
+      "url": "https://github.com/vino3dx/vino3dx",
+      "description": "Public profile, verified project index and machine-readable metadata for Vino (vino3dx)."
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Vino technical articles",
+      "url": "https://vinofx.com/blogri-zhi"
+    }
   ],
   "sameAs": [
     "https://github.com/vino3dx",

@@ -1,6 +1,6 @@
 # Links
 
-Official profiles for Vino. Only the links below are official.
+Official profiles for Vino. Only the links below are official — anything else using the name "Vino", "vino3dx" or "Vino Studio" is not affiliated.
 
 | Platform | URL | What it is |
 | --- | --- | --- |
@@ -16,12 +16,15 @@ Official profiles for Vino. Only the links below are official.
 - **Name:** Vino
 - **Handle:** vino3dx
 - **Site / brand name:** Vino Studio
-- **Role:** CG Generalist & Technical Artist
+- **Role:** CG Generalist & Technical Artist (技术美术)
+- **Location:** Chengdu, Sichuan, China
 - **Focus:** technical art, real-time graphics, shaders, VFX, DCC automation, game engine tooling and AI-assisted development workflows
+- **Engines and DCC:** Godot Engine, Unreal Engine, Autodesk 3ds Max, Blender, Houdini
+- **Languages:** C++, Python, GDScript, MAXScript, C#, TypeScript
 
 ## Related machine-readable files
 
-- [llms.txt](./llms.txt) - short index for AI systems
+- [llms.txt](./llms.txt) - short index for AI systems and language models
 - [profile.json](./profile.json) - Schema.org `Person` representation of the same identity
 - [PROJECTS.md](./PROJECTS.md) - verified project index
 - [CITATION.cff](./CITATION.cff) - citation metadata for this repository
